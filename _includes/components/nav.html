@@ -1,0 +1,8 @@
+<nav>
+<a href="#" id="pull"></a>
+<ul>
+  {% for nav in collections.nav %}
+    <li class="{% if nav.url == page.url %} active{% endif %}"><a href="{{ nav.url | url }}">{{ nav.data.navTitle }}</a></li>
+  {%- endfor -%}
+</ul>
+</nav>

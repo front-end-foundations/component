@@ -1,0 +1,15 @@
+{
+  "name": "eleventy2",
+  "version": "1.0.0",
+  "description": "session 8",
+  "main": "index.js",
+  "scripts": {
+    "eleventy": "eleventy --serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.7.1"
+  }
+}
