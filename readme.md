@@ -1,4 +1,4 @@
-# VII - Components
+# IX - Components
 
 The Master branch of this repo is where we left off in session 8.
 
@@ -73,9 +73,11 @@ var videoSwitch = function () {
 
 ## Refactoring Components
 
-Suppose we want to remove the video content from all pages except Home and Videos. We also want to add the video section to the video page without the aside.
+We want to remove the video content from all pages except Home and Videos. 
 
-Split the video.html component into video-article.html and video-aside.html in the components folder.
+We also want to add the video section to the video page without the aside.
+
+Split the `video.html` component into `video-article.html` and `video-aside.html` in the components folder.
 
 Create `components/video-article`
 
@@ -170,7 +172,7 @@ navTitle: Videos
 date: 2019-01-01
 ---
 
-## Coming soon.
+Insisting that they had taken every measure to keep the message “extra top secret,” the Trump boys reportedly spent Wednesday defending their decision to send Saudi Arabia plans for a cool missile using their personal Etch A Sketch. “We spent, like, a million hours making that rocket look super good, so we had to send it to our friends in Sunny Arabia…
 
 [Home](/)
 ```
@@ -180,21 +182,6 @@ Now `home.md` and `videos.md` are using the new layouts (layouts vs components).
 Remove the article section from `layout.html` so it doesn't render on all pages.
 
 ### Thinning the Templates
-
-The `videos.md` markdown file:
-
-```md
----
-layout: layouts/video.html
-pageTitle: Videos
-navTitle: Videos
-date: 2019-01-01
----
-
-Insisting that they had taken every measure to keep the message “extra top secret,” the Trump boys reportedly spent Wednesday defending their decision to send Saudi Arabia plans for a cool missile using their personal Etch A Sketch. “We spent, like, a million hours making that rocket look super good, so we had to send it to our friends in Sunny Arabia…
-
-[Home](/)
-```
 
 There is a lot of duplication going on. Let's pass the `video.html` template into `layout.html` for processing.
 
@@ -311,8 +298,6 @@ layout: layouts/layout.html
 {{ content }}
 ```
 
-## Time Permitting
-
 ## Images Carousel
 
 Add and new layout file `images.html` to layouts
@@ -326,6 +311,8 @@ layout: layouts/layout.html
 
 {{ content }}
 ```
+
+Review the `images.html` component.
 
 In `images.md`
 
@@ -342,7 +329,7 @@ date: 2019-02-01
 
 Do a DOM review of this section of the page.
 
-In a new `_carousel.scss`:
+In a new linked `_carousel.scss`:
 
 ```css
 .secondary aside {
@@ -366,7 +353,7 @@ In a new `_carousel.scss`:
 }
 ```
 
-Note transition:
+Note the transition:
 
 ```css
 li img {
@@ -450,62 +437,7 @@ function runCarousel() {
 
 js ajax and localstorage
 
-At a certain point I had to adjust the js to remove an error.
+prefetching and rendering the data
 
-```
----
-pageClass: blog
-pageTitle: Blog
-date: 2019-03-01
-navTitle: Blog
----
+Done
 
-<div class="blog"></div>
-```
-
-```js
-document.addEventListener('click', clickHandlers)
-
-var nyt = 'https://api.nytimes.com/svc/topstories/v2/nyregion.json?api-key=OuQiMDj0xtgzO80mtbAa4phGCAJW7GKa'
-
-function clickHandlers(){
-  if (event.target.matches('#pull')){
-    document.querySelector('body').classList.toggle('show-nav');
-    event.preventDefault();
-  }
-  if (event.target.matches('.content-video a')){
-    const iFrame = document.querySelector('iframe');
-    const videoLinks = document.querySelectorAll('.content-video a');
-    videoLinks.forEach(videoLink => videoLink.classList.remove('active'));
-    event.target.classList.add('active');
-    const videoToPlay = event.target.getAttribute('href');
-    iFrame.setAttribute('src', videoToPlay);
-    event.preventDefault();
-  }
-}
-
-var addContent = function(data){
-
-  var looped = ''
-
-  for(i=0; i<data.results.length; i++){
-    looped += `
-      <div class="item">
-        <h3>${data.results[i].title}</h3>
-        <p>${data.results[i].abstract}</p>
-      </div>
-      `
-  }
-  if (document.querySelector('.content .blog')){
-    document.querySelector('.content .blog').innerHTML = looped
-  }
-}
-
-var getData = function () {
-	fetch(nyt)
-  .then(response => response.json())
-  .then(json => addContent(json))
-}
-
-getData();
-```
