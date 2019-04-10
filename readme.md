@@ -1,6 +1,6 @@
 # VII - Components
 
-The Dev branch of this repo is where we left off in session 8.
+The Master branch of this repo is where we left off in session 8.
 
 Log in to Github and create an empty repo called components.
 
