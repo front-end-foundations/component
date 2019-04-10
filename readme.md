@@ -1,6 +1,6 @@
 # IX - Components
 
-The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.
+The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.a
 
 Log in to Github and create an empty repo called components.
 
@@ -432,6 +432,73 @@ function runCarousel() {
   event.preventDefault();
 }
 ```
+
+## Forms
+
+https://www.netlify.com/docs/form-handling/
+
+Component: `contact.html`
+
+Page: `contact.md`
+
+```md
+---
+layout: layouts/contact.html
+pageTitle: Contact Us
+navTitle: Contact
+date: 2019-04-01
+---
+
+[Home](/)
+```
+
+Layout: `contact.html`
+
+```html
+---
+layout: layouts/layout.html
+---
+
+{% include components/contact.html %}
+```
+
+CSS:
+
+```css
+/* Contact Form */
+form {
+  display: grid;
+  padding: 2em 0;
+}
+
+form label {
+  display: none;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+}
+
+input,
+textarea {
+  border: 1px solid #666;
+}
+
+button {
+  border: 1px solid $link;
+  background-color: $link;
+  color: #fff;
+  cursor: pointer;
+}
+
+```
+
+
 
 ## Notes
 
