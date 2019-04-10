@@ -47,3 +47,19 @@ a:hover {
   border-bottom: 1px dashed #aaa;
   padding-bottom: 1rem;
 }
+
+section {
+  @media(min-width: $break-med){
+    max-width: $max-width;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-column-gap: 2rem;
+    padding-top: 2rem;
+    article {
+      iframe {
+        min-height: 300px;
+      }
+    }
+  }
+}
