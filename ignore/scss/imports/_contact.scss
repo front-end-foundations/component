@@ -1,0 +1,30 @@
+/* Contact Form */
+form {
+  display: grid;
+  padding: 2em 0;
+}
+
+form label {
+  display: none;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+}
+
+input,
+textarea {
+  border: 1px solid #666;
+}
+
+button {
+  border: 1px solid $link;
+  background-color: $link;
+  color: #fff;
+  cursor: pointer;
+}
