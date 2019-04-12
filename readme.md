@@ -666,5 +666,4 @@ js ajax and localstorage
 
 prefetching and rendering the data
 
-Done
 
