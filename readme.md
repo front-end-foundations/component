@@ -298,6 +298,26 @@ layout: layouts/layout.html
 {{ content }}
 ```
 
+Correct CSS for videos page.
+
+`<body class="{{ pageClass }}">`
+
+```md
+---
+layout: layouts/video.html
+pageTitle: Videos
+navTitle: Videos
+pageClass: videos
+date: 2019-01-01
+---
+```
+
+```css
+.videos iframe {
+  min-height: 500px;
+}
+```
+
 ## Images Carousel
 
 Add and new layout file `images.html` to layouts
@@ -435,37 +455,51 @@ function runCarousel() {
 
 ## Forms
 
-https://www.netlify.com/docs/form-handling/
-
-Component: `contact.html`
-
-Page: `contact.md`
-
-```md
----
-layout: layouts/contact.html
-pageTitle: Contact Us
-navTitle: Contact
-date: 2019-04-01
----
-
-[Home](/)
-```
-
-Layout: `contact.html`
+Starter:
 
 ```html
----
-layout: layouts/layout.html
----
+<form name="contact" method="POST" action="/" autocomplete="true">
+<fieldset>
+  
+  <input type="text" name="name" id="name" required autocomplete = "off" />
+  <label for="name">Your name</label>
+ 
+  <input type="email" name="email" id="email" required autocomplete = "off"   />
+   <label for="email">Email address</label>
 
-{% include components/contact.html %}
+  
+  <textarea name="message" id="message" placeholder="Your message" rows="7"></textarea>
+  <label for="message">Your message</label>
+  <button type="submit" name="submit">Send Message</button>
+  </fieldset>
+</form>
 ```
 
-CSS:
+`form`:
+
+* action - Specifies where to send the form-data when a form is submitted
+* autocomplete - Specifies whether a form should have autocomplete on or off
+* method - Specifies the HTTP method to use when sending form-data
+* name - Specifies the name of a form
+* novalidate - turns validation off, typically used when you provide your own custom validations routines
+
+`fieldset`: not really needed here. Allows the form to be split into multiple sections (e.g. shipping, billing)
+
+`label`: The for attribute of the `<label>` tag should be equal to the id attribute of the related element to bind them together
+
+`input`: Specifies an input field where the user can enter data. Is empty and consists of attributes only.
+
+* can accept autocomplete and autofocus
+* name - Specifies the name of an <input> element used to reference elements in a JavaScript, or to reference form data after a form is submitted
+* type - the [most complex](https://www.w3schools.com/tags/att_input_type.asp) attribute, determines the nature of the input
+* required - works with native HTML5 validation
+* placeholder - the text the user sees before typing
+* pattern - Specify a [regular expression](https://www.w3schools.com/TAGS/att_input_pattern.asp) that the `<input>` element's value is checked against on form submission
+* title - use with pattern to specify extra information about an element, not form specific, often shown as a tooltip text, here - describes the pattern to help the user
+
+Initial CSS:
 
 ```css
-/* Contact Form */
 form {
   display: grid;
   padding: 2em 0;
@@ -495,10 +529,129 @@ button {
   color: #fff;
   cursor: pointer;
 }
+```
 
+Ender:
+
+```html
+<form name="contact" method="POST" data-netlify="true" action="/">
+<fieldset>
+  
+  <input type="text" name="name" id="name" autocomplete="name" title="Please enter your name" required />
+  <label for="name">Name</label>
+
+  <input type="email" name="email" id="email" autocomplete="email" title="The domain portion of the email address is invalid (the portion after the @)." pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$" required />
+    <label for="email">Email</label>
+
+  <textarea name="message" id="message" placeholder="Write your message here" rows="7" required></textarea>
+  <label for="message">Message</label>
+  
+  <button type="submit" name="submit">Send Message</button>
+  </fieldset>
+</form>
+```
+
+Label effect:
+
+```css
+form {
+  display: grid;
+  padding: 2em 0;
+  display: block;
+  position: relative;
+}
+
+form label {
+  display: block;
+  position: relative;
+  top: -42px;
+  left: 16px;
+  font-size: 16px;
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+
+input:focus + label, input:valid + label{
+  top: -80px;
+  font-size: 0.875rem;
+  color: #00aced;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 1em;
+  font-size: 1rem;
+}
+
+input {
+  display: block;
+  position: relative;
+  background: none;
+  border: none;
+  border-bottom: 1px solid $link;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 2;
+}
+
+textarea {
+  border: 1px solid $link;
+}
+textarea + label {
+  display: none;
+}
+textarea:focus {
+  outline: none;
+}
+
+input:focus, input:valid{
+  outline: none;
+  border-bottom: 1px solid $link;
+}
+
+button {
+  border: 1px solid $link;
+  background-color: $link;
+  color: #fff;
+  cursor: pointer;
+}
+```
+
+https://www.netlify.com/docs/form-handling/
+
+`data-netlify="true"`
+
+Component: `contact.html`
+
+Page: `contact.md`
+
+```md
+---
+layout: layouts/contact.html
+pageTitle: Contact Us
+navTitle: Contact
+date: 2019-04-01
+---
+
+[Home](/)
+```
+
+Layout: `contact.html`
+
+```html
+---
+layout: layouts/layout.html
+---
+
+{% include components/contact.html %}
 ```
 
 
+
+https://www.netlifycms.org/
 
 ## Notes
 

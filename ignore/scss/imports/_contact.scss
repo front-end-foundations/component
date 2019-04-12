@@ -1,11 +1,24 @@
-/* Contact Form */
 form {
   display: grid;
   padding: 2em 0;
+  display: block;
+  position: relative;
 }
 
 form label {
-  display: none;
+  display: block;
+  position: relative;
+  top: -42px;
+  left: 16px;
+  font-size: 16px;
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+
+input:focus + label, input:valid + label{
+  top: -80px;
+  font-size: 0.875rem;
+  color: #00aced;
 }
 
 input,
@@ -17,9 +30,30 @@ button {
   font-size: 1rem;
 }
 
-input,
+input {
+  display: block;
+  position: relative;
+  background: none;
+  border: none;
+  border-bottom: 1px solid $link;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 2;
+}
+
 textarea {
-  border: 1px solid #666;
+  border: 1px solid $link;
+}
+textarea + label {
+  display: none;
+}
+textarea:focus {
+  outline: none;
+}
+
+input:focus, input:valid{
+  outline: none;
+  border-bottom: 1px solid $link;
 }
 
 button {

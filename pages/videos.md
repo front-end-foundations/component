@@ -2,6 +2,7 @@
 layout: layouts/video.html
 pageTitle: Videos
 navTitle: Videos
+pageClass: videos
 date: 2019-01-01
 ---
 
