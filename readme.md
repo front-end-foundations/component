@@ -1,6 +1,6 @@
 # IX - Components
 
-The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.a
+The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.
 
 Log in to Github and create an empty repo called components.
 
@@ -8,9 +8,9 @@ Log in to Github and create an empty repo called components.
 
 ## Homework
 
-Work on a final project. See session 7 for guidelines (TLDR - few).
+Work on a final project.
 
-## Exercise - A Site Redesign
+## Exercise continued - A Site Redesign
 
 ## Deployment
 
