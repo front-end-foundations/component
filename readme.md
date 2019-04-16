@@ -11,6 +11,7 @@ Work on your final project.
 ## Review
 
 * `https://www.11ty.io/docs/starter/`
+* `https://session9-components.netlify.com/`
 
 ## Exercise continued - Site Redesign
 
