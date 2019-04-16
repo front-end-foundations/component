@@ -1,16 +1,24 @@
 # IX - Components
 
-The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.a
+The Master branch of this repo is where we left off in session 8. The dev branch is being deployed to Netlify.
 
-Log in to Github and create an empty repo called components.
-
-** Download the zip file **
+Log in to Github ** _Download the zip file_ ** and create an empty repo called components.
 
 ## Homework
 
-Work on a final project. See session 7 for guidelines (TLDR - few).
+Work on your final project. 
 
-## Exercise - A Site Redesign
+## Exercise continued - Site Redesign
+
+`cd` into `component-master` and initialize a repository:
+
+```sh
+$ git init
+$ git add .
+$ git commit -m 'initial commit'
+$ git remote add origin <your-github-repo>
+$ git push -u origin master
+```
 
 ## Deployment
 
@@ -18,14 +26,17 @@ We'll use [Netlify](https://www.netlify.com/) to put this on the web. Register a
 
 We can also hook into a Github branch to set up [continuous delpoyment](https://app.netlify.com/start). Here is a [sample](https://agitated-bartik-814348.netlify.com/) with [admin](https://agitated-bartik-814348.netlify.com/admin).
 
+Set Netlify for continuous deployment on the Master branch of your Github Component repo.
+
 * use the terminal to create and checkout a new branch
 
 ```sh
+$ git status 
 $ git branch dev
 $ git checkout dev
 ```
 
-In the future you will be able to merge your dev branch with the master branch and have your site updated automatically.
+In the future you will be able to merge your dev branch into the master branch and have your site updated automatically.
 
 Make sure the branch is clean, then checkout the main (master) branch and push to Github. Netlify will take over from there - running the eleventy command to create a `_site` folder and putting that on its CDN.
 
@@ -36,16 +47,7 @@ $ git checkout master
 $ git push -u origin master
 ```
 
-
-## Video Component
-
-Add the component to `layout.html`
-
-```html
-<section>
-  {% include components/video.html %}
-</section>
-```
+## JavaScript Review
 
 Note: our clickHandlers function is getting out of hand. You could use a separate function to tame it a bit:
 
@@ -77,9 +79,9 @@ We want to remove the video content from all pages except Home and Videos.
 
 We also want to add the video section to the video page without the aside.
 
-Split the `video.html` component into `video-article.html` and `video-aside.html` in the components folder.
+We will split the `_includes/components/video.html` component into `video-article.html` and `video-aside.html` in the components folder.
 
-Create `components/video-article`
+Create `components/video-article.html`
 
 ```html
 <div class="content-video">
@@ -98,7 +100,7 @@ Create `components/video-article`
 </div>
 ```
 
-Create `components/video-aside`
+Create `components/video-aside.html`
 
 ```html
 <h2>Videos About People</h2>
@@ -120,7 +122,7 @@ In `layout.html`, include the two new components using article and aside tags
 </section>
 ```
 
-Add to base.scss (wide screen only)
+Add to `ignore/sass/base.scss` (wide screen only)
 
 ```css
 section {
@@ -142,10 +144,10 @@ section {
 
 We want the video section to appear on only the home page and in the video page.
 
-* Save out two copies of `layout.html` as `layouts/home.html` and `layouts/video.html`
+* Save out two copies of `layouts/layout.html` as `layouts/home.html` and `layouts/video.html`
 * Use these templates for rendering e.g.:
 
-`pages/home.md`
+Change the YAML frontmatter in `pages/home.md`
 
 ```yaml
 ---
@@ -162,7 +164,7 @@ permalink: /
 {% endfor %}
 ```
 
-and `pages/videos.md`
+and in `pages/videos.md`
 
 ```yaml
 ---
@@ -177,9 +179,24 @@ Insisting that they had taken every measure to keep the message “extra top sec
 [Home](/)
 ```
 
-Now `home.md` and `videos.md` are using the new layouts (layouts vs components).
+Now `home.md` and `videos.md` are using the new layouts.
 
 Remove the article section from `layout.html` so it doesn't render on all pages.
+
+I.e. Remove this from `layout.html`:
+
+```html
+<section>
+  <article>
+    {% include components/video-article.html %}
+  </article>
+  <aside>
+    {% include components/video-aside.html %}
+  </aside>
+</section>
+```
+
+The video article and aside should appear on only the videos and home link.
 
 ### Thinning the Templates
 
@@ -204,15 +221,15 @@ layout: layouts/layout.html
 
 _NOTE_: our ajax file is overwriting the contents of our div and needs a touch up.
 
-Target a div with a class of blog in the JS:
+Target a div with a class of blog in `static/js/scripts.js`:
 
 ```js
-  if (document.querySelector('.content .blog')) {
-    document.querySelector('.content .blog').innerHTML = looped
-  }
+if (document.querySelector('.content .blog')) {
+  document.querySelector('.content .blog').innerHTML = looped
+}
 ```
 
-And apply that class to the blog page file:
+And apply that class to the blog page `pages/blog.html` file:
 
 
 ```html
@@ -228,7 +245,7 @@ navTitle: Blog
 
 Perform the same thinning process for the `home.html` template.
 
-Trim the `home.html` template
+Trim the `home.html` template:
 
 ```html
 ---
@@ -252,6 +269,8 @@ layout: layouts/layout.html
     
 </div>
 ```
+
+Now both the `home.html` and `video.html` layouts are referencing `layout.html` as a master template.
 
 ### Final trim
 
@@ -298,9 +317,13 @@ layout: layouts/layout.html
 {{ content }}
 ```
 
-Correct CSS for videos page.
+## CSS
 
-`<body class="{{ pageClass }}">`
+We want to make the video larger on wide screens only.
+
+Recall that we have the ability to insert a class name on the body tag of any page via `<body class="{{ pageClass }}">` in `layout.html`.
+
+Change the front matter in `pages/videos.md` to add a `pageClass`:
 
 ```md
 ---
@@ -312,9 +335,14 @@ date: 2019-01-01
 ---
 ```
 
+Then, in `ignore/scss/_video.scss`: 
+
 ```css
 .videos iframe {
+  min-height: 240px;
+  @media(min-width: $break-med){
   min-height: 500px;
+  }
 }
 ```
 
@@ -344,7 +372,10 @@ navTitle: Images
 date: 2019-02-01
 ---
 
-[Home](/)
+### Suspicious New WikiLeaks Document Dump Exposes How Awesome And Trustworthy U.S. Government Is
+
+Releasing thousands of confidential pages detailing the operational excellence at every level, a suspicious new dump of WikiLeaks documents Monday exposed just how totally awesome and trustworthy the U.S. government is. According to the lengthy set of government cables emailed to dozens of world news organizations simultaneously along with a five-gigabyte…
+
 ```
 
 Do a DOM review of this section of the page.
@@ -387,7 +418,7 @@ li img {
 
 ### Content Slider 
 
-The large image on the images page
+Format the large image on the images page
 
 ```css
 figure {
@@ -401,6 +432,8 @@ figure {
 	}
 }
 ```
+
+Implementing the image swap in `scripts.js`:
 
 ```js
 const carouselLinks = document.querySelectorAll('.image-tn a');
@@ -418,9 +451,11 @@ function runCarousel() {
 }
 ```
 
+Note the use of `this` above.
+
 Set the text in the carousel.
 
-Find the appropriate traversal `const titleText = this.firstChild.title`:
+Find the appropriate traversal `const imageHref = event.target.parentNode.getAttribute('href')`:
 
 ```js
 function runCarousel() {
@@ -455,7 +490,7 @@ function runCarousel() {
 
 ## Forms
 
-Starter:
+Use the following in the `contact.html` component:
 
 ```html
 <form name="contact" method="POST" action="/" autocomplete="true">
@@ -474,6 +509,30 @@ Starter:
   </fieldset>
 </form>
 ```
+
+Bring the form into the layout via `contact.md`:
+
+```yml
+---
+layout: layouts/contact.html
+pageTitle: Contact Us
+navTitle: Contact
+date: 2019-04-01
+---
+```
+
+and `layouts/video.html`:
+
+```yml
+---
+layout: layouts/layout.html
+---
+
+{% include components/video-article.html %}
+
+{{ content }}
+```
+
 
 `form`:
 
@@ -550,6 +609,10 @@ Ender:
   </fieldset>
 </form>
 ```
+
+Try:
+
+`autocomplete="off"`
 
 Label effect:
 
