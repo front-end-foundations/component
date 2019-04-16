@@ -6,7 +6,11 @@ Log in to Github ** _Download the zip file_ ** and create an empty repo called c
 
 ## Homework
 
-Work on your final project. 
+Work on your final project.
+
+## Review
+
+* `https://www.11ty.io/docs/starter/`
 
 ## Exercise continued - Site Redesign
 
